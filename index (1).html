@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamFlix</title>
+<style>
+  :root{
+    --red:#e50914;
+    --black:#141414;
+    --dark:#000000;
+    --gray:#808080;
+    --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+  body{background:var(--black); color:var(--white); overflow-x:hidden;}
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 4%;
+    transition: background 0.4s ease;
+  }
+  .navbar.scrolled{ background: var(--dark); box-shadow:0 2px 10px rgba(0,0,0,0.6); }
+  .nav-left{ display:flex; align-items:center; gap:30px; }
+  .logo{
+    color:var(--red); font-size:28px; font-weight:900; letter-spacing:1px;
+    text-transform:uppercase; cursor:pointer;
+  }
+  .nav-links{ display:flex; gap:18px; list-style:none; }
+  .nav-links li{ font-size:14px; color:#e5e5e5; cursor:pointer; transition:color .2s; }
+  .nav-links li:hover{ color:var(--gray); }
+  .nav-links li.active{ font-weight:700; color:var(--white); }
+
+  .nav-right{ display:flex; align-items:center; gap:20px; }
+  .icon-btn{ cursor:pointer; font-size:18px; color:var(--white); position:relative; }
+  .profile{
+    width:32px; height:32px; border-radius:4px;
+    background: linear-gradient(135deg,#e50914,#831010);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:14px; cursor:pointer;
+  }
+
+  /* mobile nav toggle */
+  .nav-links { transition: max-height .3s ease; }
+  @media (max-width: 760px){
+    .nav-links{ display:none; }
+    .nav-left{ gap:14px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:80vh; width:100%;
+    background: linear-gradient(105deg, #3a0d12 0%, #1a1a1a 55%, #0c1421 100%);
+    display:flex; align-items:center;
+  }
+  .hero::after{
+    content:""; position:absolute; bottom:0; left:0; right:0; height:35%;
+    background: linear-gradient(to top, var(--black), transparent);
+  }
+  .hero::before{
+    content:""; position:absolute; top:0; left:0; right:0; bottom:0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(229,9,20,0.25), transparent 60%);
+  }
+  .hero-content{
+    position:relative; z-index:2; padding:0 4%; max-width:620px;
+  }
+  .hero-content h1{
+    font-size:64px; font-weight:900; line-height:1.05; margin-bottom:16px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  }
+  .hero-tags{ display:flex; gap:10px; align-items:center; margin-bottom:14px; }
+  .hero-tags span{
+    font-size:13px; padding:4px 8px; border:1px solid rgba(255,255,255,0.4);
+    border-radius:3px; color:#ddd; letter-spacing:0.5px;
+  }
+  .hero-content p{
+    font-size:18px; line-height:1.5; margin-bottom:24px; color:#e5e5e5;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+  }
+  .hero-buttons{ display:flex; gap:14px; }
+  .btn{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 26px; font-size:16px; font-weight:700;
+    border:none; border-radius:4px; cursor:pointer;
+    transition: opacity .2s ease, transform .1s ease;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn-play{ background:var(--white); color:var(--black); }
+  .btn-play:hover{ opacity:0.8; }
+  .btn-info{ background:rgba(109,109,110,0.6); color:var(--white); }
+  .btn-info:hover{ background:rgba(109,109,110,0.4); }
+
+  /* ---------- ROWS ---------- */
+  .rows-container{ position:relative; z-index:3; margin-top:-60px; padding-bottom:60px; }
+  .row{ margin-bottom:8px; }
+  .row h2{
+    font-size:20px; font-weight:600; padding:0 4% 8px; color:#e5e5e5;
+  }
+  .row-track-wrapper{ position:relative; }
+  .row-track{
+    display:flex; gap:6px; overflow-x:scroll; scroll-behavior:smooth;
+    padding:0 4%; scrollbar-width:none;
+  }
+  .row-track::-webkit-scrollbar{ display:none; }
+
+  .card{
+    flex:0 0 auto; width:230px; height:130px; border-radius:4px;
+    cursor:pointer; position:relative; transition: transform .3s ease, z-index 0s;
+    display:flex; align-items:flex-end; overflow:hidden;
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
+  }
+  .card:hover{ transform: scale(1.12) translateY(-10px); z-index:10; box-shadow:0 10px 25px rgba(0,0,0,0.7); }
+  .card-label{
+    position:relative; z-index:2; padding:10px 12px; font-size:13px; font-weight:600;
+    color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.8); width:100%;
+    background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  }
+  .card-rank{
+    position:absolute; left:0; bottom:0; font-size:90px; font-weight:900;
+    color:rgba(0,0,0,0.4); -webkit-text-stroke:2px rgba(255,255,255,0.25);
+    line-height:1; z-index:1; pointer-events:none;
+  }
+
+  /* row scroll arrows */
+  .row-arrow{
+    position:absolute; top:0; bottom:0; width:50px; display:flex;
+    align-items:center; justify-content:center; cursor:pointer;
+    background:rgba(20,20,20,0.5); z-index:20; font-size:24px; color:#fff;
+    opacity:0; transition:opacity .2s;
+  }
+  .row-track-wrapper:hover .row-arrow{ opacity:1; }
+  .row-arrow.left{ left:0; }
+  .row-arrow.right{ right:0; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:50px 4%; color:var(--gray); font-size:13px;
+  }
+  footer a{ color:var(--gray); text-decoration:none; display:block; margin-bottom:10px; }
+  footer a:hover{ text-decoration:underline; }
+  .footer-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:720px; margin:20px 0;
+  }
+  @media (max-width:600px){
+    .footer-grid{ grid-template-columns:repeat(2,1fr); }
+    .hero-content h1{ font-size:38px; }
+    .hero-content p{ font-size:15px; }
+    .card{ width:160px; height:90px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-left">
+    <div class="logo">StreamFlix</div>
+    <ul class="nav-links">
+      <li class="active">Home</li>
+      <li>TV Shows</li>
+      <li>Movies</li>
+      <li>New &amp; Popular</li>
+      <li>My List</li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <span class="icon-btn">🔍</span>
+    <span class="icon-btn">🔔</span>
+    <div class="profile">SF</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tags">
+      <span>Original Series</span>
+      <span>2026</span>
+      <span>Drama</span>
+    </div>
+    <h1>Midnight Frequencies</h1>
+    <p>When a late-night radio host starts receiving messages from a future version of herself, she must decide whether to change the past — or protect it.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-play">▶ Play</button>
+      <button class="btn btn-info">ⓘ More Info</button>
+    </div>
+  </div>
+</section>
+
+<!-- ROWS -->
+<div class="rows-container" id="rows"></div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Questions? Contact us.</p>
+  <div class="footer-grid">
+    <a href="#">FAQ</a>
+    <a href="#">Help Center</a>
+    <a href="#">Account</a>
+    <a href="#">Media Center</a>
+    <a href="#">Investor Relations</a>
+    <a href="#">Jobs</a>
+    <a href="#">Ways to Watch</a>
+    <a href="#">Terms of Use</a>
+    <a href="#">Privacy</a>
+    <a href="#">Cookie Preferences</a>
+    <a href="#">Corporate Information</a>
+    <a href="#">Speed Test</a>
+  </div>
+  <p>StreamFlix Clone — UI demo, not affiliated with any streaming service.</p>
+</footer>
+
+<script>
+  // ---- Navbar scroll effect ----
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  // ---- Data for rows ----
+  const palettes = [
+    "linear-gradient(135deg,#ff6a00,#ee0979)",
+    "linear-gradient(135deg,#1f4037,#99f2c8)",
+    "linear-gradient(135deg,#3a1c71,#d76d77,#ffaf7b)",
+    "linear-gradient(135deg,#0f2027,#203a43,#2c5364)",
+    "linear-gradient(135deg,#8e2de2,#4a00e0)",
+    "linear-gradient(135deg,#11998e,#38ef7d)",
+    "linear-gradient(135deg,#fc4a1a,#f7b733)",
+    "linear-gradient(135deg,#36486b,#92a4d4)",
+    "linear-gradient(135deg,#7b4397,#dc2430)",
+    "linear-gradient(135deg,#0f0c29,#302b63,#24243e)"
+  ];
+
+  const titles = [
+    "Crimson Hour","Glass Horizon","The Last Signal","Velvet Static",
+    "Nightfall Protocol","Drift","Echo Chamber","Paper Tigers",
+    "Iron Lullaby","The Quiet Storm","Borrowed Time","Static Bloom",
+    "Afterglow City","The Long Game","Hollow Point","Wildfire Season"
+  ];
+
+  const rowDefs = [
+    { title: "Trending Now", ranked: false },
+    { title: "Top 10 Today", ranked: true },
+    { title: "New Releases", ranked: false },
+    { title: "Critically Acclaimed Dramas", ranked: false },
+    { title: "Because You Watched Midnight Frequencies", ranked: false }
+  ];
+
+  const rowsContainer = document.getElementById('rows');
+
+  rowDefs.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'row';
+
+    const heading = document.createElement('h2');
+    heading.textContent = def.title;
+    row.appendChild(heading);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'row-track-wrapper';
+
+    const leftArrow = document.createElement('div');
+    leftArrow.className = 'row-arrow left';
+    leftArrow.textContent = '‹';
+
+    const rightArrow = document.createElement('div');
+    rightArrow.className = 'row-arrow right';
+    rightArrow.textContent = '›';
+
+    const track = document.createElement('div');
+    track.className = 'row-track';
+
+    titles.forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.background = palettes[i % palettes.length];
+
+      if (def.ranked && i < 10) {
+        const rank = document.createElement('div');
+        rank.className = 'card-rank';
+        rank.textContent = i + 1;
+        card.appendChild(rank);
+        card.style.width = '280px';
+      }
+
+      const label = document.createElement('div');
+      label.className = 'card-label';
+      label.textContent = t;
+      card.appendChild(label);
+
+      card.addEventListener('click', () => {
+        alert(`▶ Now playing: "${t}"`);
+      });
+
+      track.appendChild(card);
+    });
+
+    leftArrow.addEventListener('click', () => {
+      track.scrollBy({ left: -600, behavior: 'smooth' });
+    });
+    rightArrow.addEventListener('click', () => {
+      track.scrollBy({ left: 600, behavior: 'smooth' });
+    });
+
+    wrapper.appendChild(leftArrow);
+    wrapper.appendChild(track);
+    wrapper.appendChild(rightArrow);
+    row.appendChild(wrapper);
+    rowsContainer.appendChild(row);
+  });
+
+  // Hero buttons demo behavior
+  document.querySelector('.btn-play').addEventListener('click', () => {
+    alert('▶ Now playing: "Midnight Frequencies"');
+  });
+  document.querySelector('.btn-info').addEventListener('click', () => {
+    alert('Midnight Frequencies\n\nA late-night radio host receives messages from her future self in this 2026 original drama series.');
+  });
+</script>
+
+</body>
+</html>
