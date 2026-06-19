@@ -1,146 +1,187 @@
 # StreamFlix 🎬
 
-A Netflix-inspired streaming platform UI clone built with pure HTML, CSS, and JavaScript — no frameworks, no dependencies.
+A Netflix-inspired streaming platform UI clone built using HTML, CSS, and JavaScript. This project recreates the look and feel of Netflix's homepage with responsive design, smooth animations, and interactive content rows.
+
+## 🌐 Live Demo
+
+🔗 Live Website: https://karthik19-ch.github.io/Netflix-Homepage/
+
+📂 GitHub Repository: https://github.com/karthik19-ch/Netflix-Homepage
 
 ---
 
 ## 📌 Overview
 
-StreamFlix is a pixel-faithful recreation of Netflix's core browsing interface. It replicates the visual design language, layout structure, and interactive behaviors of a modern streaming platform using only vanilla web technologies.
+StreamFlix is a frontend Netflix Homepage Clone developed as part of a web development learning project. It focuses on creating a modern streaming platform interface using only vanilla web technologies without any frameworks or libraries.
 
 ---
 
 ## ✨ Features
 
-- **Fixed Navbar** with scroll-triggered background transition
-- **Hero Section** with gradient backdrop, metadata tags, and action buttons
-- **Dynamic Content Rows** generated via JavaScript from a data array
-- **Horizontal Scroll** with smooth arrow navigation (‹ ›)
-- **Card Hover Effects** — scale + lift animation on mouse-over
-- **Top 10 Row** with oversized rank numbers overlay
-- **Responsive Design** — adapts to mobile and desktop viewports
-- **Footer** with multi-column link grid
+- Fixed Navigation Bar
+- Responsive Hero Section
+- Dynamic Movie Content Rows
+- Smooth Horizontal Scrolling
+- Hover Animation Effects
+- Top 10 Ranking Section
+- Fully Responsive Design
+- Multi-Column Footer
+- Modern Netflix-Inspired UI
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Usage |
-|------------|-------|
-| HTML5 | Page structure and semantics |
-| CSS3 | Styling, animations, responsive layout |
-| Vanilla JavaScript | DOM generation, scroll effects, interactions |
-
-> No libraries. No frameworks. No build tools.
+| Technology | Purpose |
+|------------|----------|
+| HTML5 | Structure |
+| CSS3 | Styling & Responsive Design |
+| JavaScript | Dynamic Interactions |
 
 ---
 
 ## 📁 Project Structure
 
-```
-streamflix/
-└── index.html       # Single-file app (HTML + CSS + JS)
+```bash
+Netflix-Homepage/
+│
+├── index.html
+├── style.css
+├── script.js
+└── assets/
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### Run Locally
-
-1. Clone or download the repository
-2. Open `index.html` in any modern browser
+### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/streamflix.git
-cd streamflix
-open index.html
+git clone https://github.com/karthik19-ch/Netflix-Homepage.git
 ```
 
-No installation or server required.
+### Navigate to Project Folder
+
+```bash
+cd Netflix-Homepage
+```
+
+### Run Project
+
+Open `index.html` in your browser.
+
+No installation or dependencies required.
 
 ---
 
-## 🎨 UI Components
+## 🎨 User Interface
 
-### Navbar
-- Fixed positioning with `z-index` layering
-- Transparent by default → solid black (`#000`) on scroll via JS scroll listener
-- Logo, nav links (Home, TV Shows, Movies, New & Popular, My List), search, bell, and profile avatar
+### Navigation Bar
+- Netflix-style navigation
+- Fixed position on scroll
+- Search and Profile icons
 
-### Hero Section
-- Full-viewport gradient background using layered CSS `linear-gradient` and `radial-gradient`
-- Metadata tags (genre, year, category)
-- Play and More Info buttons with active press animation
+### Hero Banner
+- Featured movie section
+- Play and More Info buttons
+- Gradient background effects
 
-### Content Rows
-Rows are generated dynamically from `rowDefs` array:
-
-```js
-const rowDefs = [
-  { title: "Trending Now",                          ranked: false },
-  { title: "Top 10 Today",                          ranked: true  },
-  { title: "New Releases",                          ranked: false },
-  { title: "Critically Acclaimed Dramas",           ranked: false },
-  { title: "Because You Watched Midnight Frequencies", ranked: false }
-];
-```
-
-- Each row renders 16 cards with gradient backgrounds
-- `ranked: true` rows add oversized rank numbers (1–10)
-- Arrow buttons scroll the track by 600px per click
+### Movie Rows
+- Trending Now
+- Top 10 Today
+- New Releases
+- Popular Movies
+- Recommended Content
 
 ### Cards
-- Gradient thumbnail placeholders (10 unique palettes)
-- Title label with bottom gradient overlay
-- Hover: `scale(1.12) translateY(-10px)` with elevated shadow
-- Click: alert with title name (demo behavior)
+- Hover scaling effect
+- Interactive UI
+- Smooth animations
 
 ---
 
-## 📱 Responsive Behavior
+## 📱 Responsive Design
 
-| Breakpoint | Changes |
-|------------|---------|
-| `≤ 760px` | Nav links hidden |
-| `≤ 600px` | Hero font size reduced, cards shrink to 160×90px, footer grid switches to 2 columns |
+The website is optimized for:
+
+- Desktop 💻
+- Tablet 📱
+- Mobile 📲
 
 ---
 
 ## 🎨 Color Palette
 
-| Variable | Hex | Usage |
-|----------|-----|-------|
-| `--red` | `#e50914` | Logo, accent |
-| `--black` | `#141414` | Page background |
-| `--dark` | `#000000` | Scrolled navbar |
-| `--gray` | `#808080` | Footer text, muted UI |
-| `--white` | `#ffffff` | Primary text |
+| Color | Hex Code |
+|---------|-----------|
+| Netflix Red | #E50914 |
+| Black | #141414 |
+| Dark Black | #000000 |
+| White | #FFFFFF |
+| Gray | #808080 |
 
 ---
 
-## 🔮 Possible Enhancements
+## 🔥 Key Learning Outcomes
 
-- [ ] Modal popup with trailer preview on card click
-- [ ] Search bar with live filter across card titles
-- [ ] "My List" toggle (add/remove from list)
-- [ ] Dark/Light mode toggle
-- [ ] Skeleton loading animation for cards
-- [ ] Persistent state via `localStorage`
+- Responsive Web Design
+- CSS Flexbox & Grid
+- DOM Manipulation
+- JavaScript Event Handling
+- UI/UX Development
+- Frontend Project Deployment
+
+---
+
+## 🚀 Deployment
+
+This project is deployed using GitHub Pages.
+
+Live URL:
+
+```text
+https://karthik19-ch.github.io/Netflix-Homepage/
+```
+
+---
+
+## 🔮 Future Enhancements
+
+- Search Functionality
+- Movie API Integration
+- Trailer Preview Modal
+- User Authentication
+- My List Feature
+- Dark/Light Theme Toggle
+- Local Storage Support
 
 ---
 
 ## 📄 License
 
-This project is built for **educational and portfolio purposes only**.  
-StreamFlix is not affiliated with or endorsed by Netflix, Inc.
+This project is created for educational and portfolio purposes only.
+
+Netflix is a registered trademark of Netflix, Inc. This project is not affiliated with, endorsed by, or associated with Netflix.
 
 ---
 
 ## 👨‍💻 Author
 
-**Karthik**  
-B.Tech CSE — The Apollo University, Chittoor  
-Frontend Development Intern — Alfido Tech
+### Karthik
 
-> *Part of the Alfido Tech Internship Task Series*
+B.Tech Computer Science & Engineering  
+The Apollo University, Chittoor
+
+Frontend Development Intern  
+Alfido Tech
+
+GitHub:
+https://github.com/karthik19-ch
+
+LinkedIn:
+https://www.linkedin.com/in/karthik-ch
+
+---
+
+⭐ If you like this project, don't forget to star the repository!
